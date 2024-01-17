@@ -5,6 +5,7 @@ import {tokenContext} from '../context/tokenContext';
 export const useCommentsData = (id) => {
   const [commentsData, setCommentsData] = useState([]);
   const {token} = useContext(tokenContext);
+  const [loading, setLoading] = useState('Загрузка...')
 
   useEffect(() => {
     if (!token) return;
@@ -17,6 +18,7 @@ export const useCommentsData = (id) => {
         if (response.status === 401) {
           throw new Error(response.status);
         }
+        loading();
         return response.json();
       })
       .then(
@@ -35,7 +37,8 @@ export const useCommentsData = (id) => {
           const comments = children.map(item => item.data);
           setCommentsData([post, comments]);
           console.log(commentsData);
-        },
+          setLoading('');
+        }
       )
       .catch((err) => {
         console.error(err);
