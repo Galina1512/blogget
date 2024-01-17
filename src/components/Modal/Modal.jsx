@@ -50,7 +50,7 @@ export const Modal = ({id, closeModal}) => {
             )}
           </ul>
         ) : (
-        <h3>Комментарии отсутствуют</h3>
+        <h3>Нет комментариев</h3>
         )
         }
         <FormComment/>
