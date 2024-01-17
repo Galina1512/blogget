@@ -6,9 +6,12 @@ import Post from './Post';
 
 
 export const List = () => {
-  const {postData} = useContext(postContext);
+  const {postData, loading} = useContext(postContext);
   // console.log(postData);
 
+  if (loading) {
+    return <p>Загрузка...</p>
+  }
   return (
     <ul className={style.list}>
       {postData.map(item =>

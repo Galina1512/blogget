@@ -7,6 +7,7 @@ import {Modal} from '../../../../Modal/Modal';
 export const PostContent = ({title, author, markdown, id}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
   return (
     <div className={style.content}>
       <Text As='h2' className={style.title}>

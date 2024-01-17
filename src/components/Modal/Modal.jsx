@@ -8,9 +8,8 @@ import {Comments} from './Comments/Comments';
 import {commentsDataContext} from '../../context/commentsDataContext';
 
 export const Modal = ({id, closeModal}) => {
-  const {comments} = useContext(commentsDataContext);
+  const {comments, loading} = useContext(commentsDataContext);
   console.log({comments});
-
 
   const overlayRef = useRef(null);
   const handleClick = e => {
@@ -37,6 +36,10 @@ export const Modal = ({id, closeModal}) => {
       document.removeEventListener('keydown', handleClick);
     };
   }, []);
+
+  if (loading) {
+    return <p>Загрузка...</p>;
+  }
 
   return ReactDOM.createPortal(
     <div className={style.overlay} ref={overlayRef}>

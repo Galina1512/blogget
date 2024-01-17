@@ -6,6 +6,7 @@ import {tokenContext} from '../context/tokenContext';
 export const usePost = () => {
   const [postData, setPostData] = useState([]);
   const {token} = useContext(tokenContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!token) return;
@@ -16,6 +17,7 @@ export const usePost = () => {
     })
       .then((res) => res.json())
       .then((data) => setPostData(data.data.children));
+    setLoading(false);
   }, [token]);
-  return [postData];
+  return [postData, loading];
 };
