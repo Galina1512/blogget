@@ -5,7 +5,7 @@ import {tokenContext} from '../context/tokenContext';
 export const useCommentsData = (id) => {
   const [commentsData, setCommentsData] = useState([]);
   const {token} = useContext(tokenContext);
-  const [loading, setLoading] = useState('Загрузка...')
+  const [loading, setLoading] = useState('Загрузка...');
 
   useEffect(() => {
     if (!token) return;
