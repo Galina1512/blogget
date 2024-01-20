@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import {useEffect, useState, useContext} from 'react';
 import {URL_API} from '../API/const';
-import {tokenContext} from '../context/tokenContext';
+import {useSelector} from 'react-redux';
 
 export const usePost = () => {
   const [postData, setPostData] = useState([]);
-  const {token} = useContext(tokenContext);
+  const token = useSelector(state => state.token);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
