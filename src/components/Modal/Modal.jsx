@@ -10,9 +10,11 @@ import Markdown from 'markdown-to-jsx';
 import {getComments} from '../../API/getComments';
 import {commentsRequest} from '../../store/comments/comments.js';
 import {useDispatch, useSelector} from 'react-redux';
+import {useCommentsData} from '../../hooks/useCommentsData.js';
 
 export const Modal = ({id, closeModal}) => {
   getComments(id);
+  useCommentsData(id);
   const dispatch = useDispatch();
   dispatch(commentsRequest());
   const post = useSelector(state => state.post);

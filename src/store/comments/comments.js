@@ -15,6 +15,12 @@ export const commentsRequest = () => ({
   type: COMMENTS_REQUEST,
 });
 
+export const commentsRequestSuccess = (data) => ({
+  type: COMMENTS_REQUEST_SUCCESS,
+  post: data.post,
+  comments: data.comments,
+});
+
 export const commentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case COMMENTS_REQUEST:

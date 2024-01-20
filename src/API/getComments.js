@@ -3,8 +3,7 @@ import {URL_API} from '../API/const';
 import {useSelector} from 'react-redux';
 
 export const getComments = (id) => {
-  const [comments, setComments] = useState([]);
-  const [post, setPost] = useState({});
+  const [commentsData, setCommentsData] = useState([]);
   const token = useSelector(state => state.token);
 
   useEffect(() => {
@@ -32,8 +31,7 @@ export const getComments = (id) => {
           },
         ]) => {
           const comments = children.map(item => item.data);
-          setComments([comments]);
-          setPost({post});
+          setCommentsData([post, comments]);
           console.log(comments);
           console.log(post);
         }
@@ -42,7 +40,7 @@ export const getComments = (id) => {
         console.error(err);
       });
   }, [token]);
-  return [comments, post];
+  return commentsData;
 };
 
 
