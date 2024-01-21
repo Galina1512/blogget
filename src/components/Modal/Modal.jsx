@@ -5,24 +5,15 @@ import PropTypes from 'prop-types';
 import {Text} from '../../UI/Text';
 import ReactDOM from 'react-dom';
 import {FormComment} from './FormComment/FormComment';
-// import {Comments} from './Comments/Comments';
+import {Comments} from './Comments/Comments';
 import Markdown from 'markdown-to-jsx';
-import {getComments} from '../../API/getComments';
-import {commentsRequest} from '../../store/comments/comments.js';
-import {useDispatch, useSelector} from 'react-redux';
 import {useCommentsData} from '../../hooks/useCommentsData.js';
 
 export const Modal = ({id, closeModal}) => {
-  getComments(id);
-  useCommentsData(id);
-  const dispatch = useDispatch();
-  dispatch(commentsRequest());
-  const post = useSelector(state => state.post);
-  const comments = useSelector(state => state.comments);
-  console.log(comments);
-  console.log(post);
-
   const overlayRef = useRef(null);
+  const data = useCommentsData(id);
+  const {status, post, comments} = data;
+
   const handleClick = e => {
     const target = e.target;
     if (target === overlayRef.current) {
@@ -48,37 +39,43 @@ export const Modal = ({id, closeModal}) => {
     };
   }, []);
 
-  // if (loading) {
-  //   return <p>Загрузка...</p>;
-  // }
-
   return ReactDOM.createPortal(
     <div className={style.overlay} ref={overlayRef}>
       <div className={style.modal}>
-        <Text
-          As='h2'
-          tsize={26}
-          className={style.title}
-        >
-          {/* {post.title} */}
-        </Text>
-        <Markdown options={{
-          overrides: {
-            a: {
-              props: {
-                targer: '_blank',
-              },
-            },
-          },
-        }}>
-          {/* {post.body} */}
-        </Markdown>
+        {status === 'loading' && 'Загрузка...'}
+        {status === 'error' && 'ошибка'}
+        {status === 'loaded' && (
+          <>
+            <Text As='h2' tsize={26} className={style.title}>
+              {post.title}
+            </Text>
 
-        {/* <Comments data={comments}/> */}
-        <FormComment/>
-        <button className={style.close} onClick={closeModal}>
-          <CloseIcon />
-        </button>
+            <div className={style.content}>
+              <Markdown options={{
+                overrides: {
+                  a: {
+                    props: {
+                      targer: '_blank',
+                    },
+                  },
+                },
+              }}>
+                {post.selftext}
+              </Markdown>
+            </div>
+            <Text As='p' className={style.author}>
+              {post.author}
+            </Text>
+
+            <FormComment/>
+
+            <Comments comments={comments}/>
+
+            <button className={style.close} onClick={closeModal}>
+              <CloseIcon />
+            </button>
+          </>
+        )}
       </div>
     </div>,
     document.getElementById('modal-root'),

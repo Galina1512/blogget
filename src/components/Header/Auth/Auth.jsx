@@ -6,22 +6,23 @@ import PropTypes from 'prop-types';
 import {urlAuth} from '../../../API/auth';
 import {Text} from '../../../UI/Text';
 import {useAuth} from '../../../hooks/useAuth';
+import {AuthLoader} from './AuthLoader/AuthLoader';
 
 export const Auth = () => {
-  const deleteToken = useSelector(state => state.token);
+  const delToken = useSelector(state => state.token);
   const [showBtn, setShowBtn] = useState(true);
   const {auth, loading, clearAuth} = useAuth();
   const dispatch = useDispatch();
 
   const logOut = () => {
-    dispatch(deleteToken());
+    dispatch(delToken());
     clearAuth();
   };
 
   return (
     <div className={style.container}>
-      {loading ? (
-        <p> Загрузка... </p>
+      {!loading ? (
+       <AuthLoader/>
       ) : auth.name ? (
     <>
       <button onClick={() => setShowBtn(!showBtn)} className={style.btn}>

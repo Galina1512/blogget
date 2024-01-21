@@ -1,14 +1,8 @@
+import {UPDATE_COMMENT} from './commentAction';
+
 const initialState = {
-  value: '',
   comment: 'Привет Redux',
 };
-
-const UPDATE_COMMENT = 'UPDATE_COMMENT';
-
-export const updateComment = (comment) => ({
-  type: UPDATE_COMMENT,
-  comment,
-});
 
 export const commentReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,3 +15,5 @@ export const commentReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+
