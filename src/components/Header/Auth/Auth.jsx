@@ -21,7 +21,7 @@ export const Auth = () => {
 
   return (
     <div className={style.container}>
-      {!loading ? (
+      {loading ? (
        <AuthLoader/>
       ) : auth.name ? (
     <>
