@@ -38,8 +38,9 @@
 
 :root {
   --black: #333333;
-  --orange: #cc6633;
-  --blue: #285784;
+  --orange: #ea1b1b;
+  --red: #f00808;
+  --blue: #2564d8;
   --green: #5bb12c;
   --white: hsl(0, 0%, 100%);
   --grayF5: hsl(0, 0%, 96%);

@@ -2,12 +2,12 @@
     background: var(--white);
 }
 .date {
-    position: absolute;
+    /* position: absolute;
     right: 10px;
-    bottom: 10px;
+    bottom: 10px; */
     grid-area: data;
     width: max-content;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 10px;
     line-height: 130%;
     color: #8f8f8f;

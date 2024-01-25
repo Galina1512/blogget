@@ -10,9 +10,10 @@ import {PreLoader} from '../../../UI/PreLoader/PreLoader';
 
 export const Auth = () => {
   const delToken = useSelector(state => state.token);
-  const [showBtn, setShowBtn] = useState(true);
-  const {auth, loading, clearAuth} = useAuth();
+  const [showBtn, setShowBtn] = useState(false);
   const dispatch = useDispatch();
+  const {auth, loading, clearAuth} = useAuth();
+
 
   const logOut = () => {
     dispatch(delToken());
@@ -23,7 +24,7 @@ export const Auth = () => {
     <div className={style.container}>
       { loading ? (
        <PreLoader/>
-      ) : auth?.name ? (
+      ) : (auth?.name ? (
     <>
       <button onClick={() => setShowBtn(!showBtn)} className={style.btn}>
         <img className={style.img}
@@ -42,7 +43,8 @@ export const Auth = () => {
       <Text className={style.authLink} As='a' href={urlAuth}>
         <AuthIcon className='style.svg' />
       </Text>
-      )}
+      ))
+      }
     </div>
   );
 };

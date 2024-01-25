@@ -3,27 +3,27 @@ import {useEffect, useState} from 'react';
 import style from './Tabs.module.css';
 import PropTypes from 'prop-types';
 import {assignId} from '../../../utils/generateRandomId';
-import {ReactComponent as ArrowIcon} from './img/arrow.svg';
-import {ReactComponent as EyeIcon} from './img/eye.svg';
-import {ReactComponent as HomeIcon} from './img/home.svg';
-import {ReactComponent as PostIcon} from './img/post.svg';
-import {ReactComponent as SaveIcon} from './img/save.svg';
-import {ReactComponent as MenuIcon} from './img/menu.svg';
 import {debounceRaf} from '../../../utils/debounceRaf';
+import {ReactComponent as ArrowIcon} from './img/arrow.svg';
+import {ReactComponent as HomeIcon} from './img/home.svg';
+import {ReactComponent as TopIcon} from './img/top.svg';
+import {ReactComponent as BestIcon} from './img/best.svg';
+import {ReactComponent as Hot} from './img/hot.svg';
+import {Text} from '../../../UI/Text/Text';
+import {useNavigate} from 'react-router-dom';
 
 const LIST = [
-  {value: 'Главная', Icon: EyeIcon},
-  {value: 'Просмотренные', Icon: HomeIcon},
-  {value: 'Сохраненные', Icon: SaveIcon},
-  {value: 'Мои посты', Icon: PostIcon},
+  {value: 'Главная', Icon: HomeIcon, link: 'rising'},
+  {value: 'Топ', Icon: TopIcon, link: 'top'},
+  {value: 'Лучшие', Icon: BestIcon, link: 'best'},
+  {value: 'Горячие', Icon: Hot, link: 'hot'},
 ].map(assignId);
-
 
 export const Tabs = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropDown, setIsDropDown] = useState(false);
-  const [list, setList] = useState(LIST);
-  // const [selectedItem, setSelectedItem] = useState(null);
+  const [isDropDown, setIsDropDown] = useState(true);
+  const [itemMenu, setItemMenu] = useState('Главная');
+  const navigate = useNavigate();
 
   const handleResize = () => {
     if (document.documentElement.clientWidth < 760) {
@@ -31,10 +31,6 @@ export const Tabs = () => {
     } else {
       setIsDropDown(false);
     }
-  };
-
-  const handleClick = (id) => {
-    setList(list.filter(item => item.id === id));
   };
 
   useEffect(() => {
@@ -51,28 +47,28 @@ export const Tabs = () => {
     <div className={style.container}>
       {isDropDown && (
         <div className={style.wrapperBtn}>
-          <button
-            className={style.btn}
+          <Text As='button' className={style.btn}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            <MenuIcon/>
+            {itemMenu}
             <ArrowIcon/>
-          </button>
+          </Text>
         </div>
       )}
 
       {(isDropdownOpen || !isDropDown) && (
         <ul className={style.list} onClick={() => setIsDropdownOpen(false)} >
-          {list.map(({value, id, Icon}) => (
+          {LIST.map(({value, link, id, Icon}) => (
             <li key={id} className={style.item}>
-              <button className={style.btn}
+              <Text As='button' className={style.btn}
                 onClick={() => {
-                  handleClick(id);
+                  setItemMenu(value);
+                  navigate(`category/${link}`);
                 }}
               >
                 {value}
                 {Icon && <Icon width={30} height={30} />}
-              </button>
+              </Text>
             </li>
           ))}
         </ul>

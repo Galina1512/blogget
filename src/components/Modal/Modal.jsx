@@ -9,8 +9,11 @@ import {Comments} from './Comments/Comments';
 import Markdown from 'markdown-to-jsx';
 import {useCommentsData} from '../../hooks/useCommentsData.js';
 import {PreLoader} from '../../UI/PreLoader/PreLoader.jsx';
+import {useNavigate, useParams} from 'react-router-dom';
 
-export const Modal = ({id, closeModal}) => {
+export const Modal = () => {
+  const {id, page} = useParams();
+  const navigate = useNavigate();
   const overlayRef = useRef(null);
   const data = useCommentsData(id);
   const {status, post, comments} = data;
@@ -18,7 +21,7 @@ export const Modal = ({id, closeModal}) => {
   const handleClick = e => {
     const target = e.target;
     if (target === overlayRef.current) {
-      closeModal();
+      navigate(`/category/${page}`);
     }
   };
 
@@ -32,7 +35,7 @@ export const Modal = ({id, closeModal}) => {
   useEffect(() => {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        closeModal();
+        navigate(`/category/${page}`);
       }
     });
     return () => {
@@ -72,7 +75,10 @@ export const Modal = ({id, closeModal}) => {
 
             <Comments comments={comments}/>
 
-            <button className={style.close} onClick={closeModal}>
+            <button className={style.close} onClick={() => {
+              navigate(`/category/${page}`);
+            }}
+            >
               <CloseIcon />
             </button>
           </>

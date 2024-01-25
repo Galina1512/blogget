@@ -12,5 +12,6 @@ Layout.propTypes = {
     PropTypes.string,
     PropTypes.object,
     PropTypes.array,
+    PropTypes.number,
   ]),
 };
