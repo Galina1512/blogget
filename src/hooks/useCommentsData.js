@@ -4,7 +4,6 @@ import {commentsRequestAsync} from '../store/comments/commentsAction';
 
 export const useCommentsData = (id) => {
   const commentsData = useSelector((store) => store.comments);
-  console.log(commentsData);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(commentsRequestAsync(id));

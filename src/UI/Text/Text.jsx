@@ -47,6 +47,7 @@ Text.propType = {
   tsize: PropTypes.number,
   dsize: PropTypes.number,
   bold: PropTypes.number,
+  onClick: PropTypes.func,
   className: PropTypes.string,
   dateTime: PropTypes.date,
   children: PropTypes.oneOfType([
@@ -56,7 +57,6 @@ Text.propType = {
     PropTypes.array,
   ]),
   href: PropTypes.string,
-  onClick: PropTypes.func,
   center: PropTypes.bool,
   medium: PropTypes.bool,
 };
