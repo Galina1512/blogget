@@ -1,66 +1,25 @@
 import axios from 'axios';
 import {URL_API} from '../../API/const';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 
-export const POST_REQUEST = 'POST_REQUEST';
-export const POST_REQUEST_SUCCESS = 'POST_REQUEST_SUCCESS';
-export const POST_REQUEST_ERROR = 'POST_REQUEST_ERROR';
-export const POST_REQUEST_SUCCESS_AFTER = 'POST_REQUEST_SUCCESS_AFTER';
-export const CHANGE_PAGE = 'CHANGE_PAGE';
+export const postRequestAsync = createAsyncThunk(
+  'post/fetch',
+  (newPage, {getState}) => {
+    const page = newPage || getState().posts.page;
+    const token = getState().token.token;
+    const after = getState().posts.after;
+    const isLast = getState().posts.isLast;
 
-export const postRequest = () => ({
-  type: POST_REQUEST,
-});
-
-export const postRequestSuccess = (data) => ({
-  type: POST_REQUEST_SUCCESS,
-  posts: data.children,
-  after: data.after,
-});
-export const postRequestSuccessAfter = (data) => ({
-  type: POST_REQUEST_SUCCESS_AFTER,
-  posts: data.children,
-  after: data.after,
-});
-
-export const postRequestError = (error) => ({
-  type: POST_REQUEST_ERROR,
-  error,
-});
-
-export const changePage = (page) => ({
-  type: CHANGE_PAGE,
-  page,
-});
-
-export const postRequestAsync = (newPage) => (dispatch, getState) => {
-  let page = getState().posts.page;
-  if (newPage) {
-    page = newPage;
-    dispatch(changePage(page));
-  }
-  const token = getState().token.token;
-  const after = getState().posts.after;
-  const loading = getState().posts.loading;
-  const isLast = getState().posts.isLast;
-
-  if (!token || loading || isLast) return;
-  dispatch(postRequest());
-
-  const aft = `after=${after}`;
-
-  axios(`${URL_API}/${page}?limit=3&${after ? aft : ''}`, {
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-  })
-    .then(({data}) => {
-      if (after) {
-        dispatch(postRequestSuccessAfter(data.data));
-      } else {
-        dispatch(postRequestSuccess(data.data));
-      }
+    if (!token || isLast) return;
+    const aft = `after=${after}`;
+    return axios(`${URL_API}/${page}?limit=3&${after ? aft : ''}`, {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
     })
-    .catch((err) => {
-      dispatch(postRequestError(err));
-    });
-};
+      .then(({data}) => data.data)
+      .catch((err) => ({error: err.toString()}));
+  }
+);
+
+

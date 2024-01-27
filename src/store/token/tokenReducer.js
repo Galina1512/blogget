@@ -5,7 +5,7 @@ const initialState = {
   token: '',
 };
 
-export const tokenMiddleware = (store) => (next) => (action) => {
+export const tokenMiddleware = store => next => (action) => {
   if (action.type === UPDATE_TOKEN) {
     setToken(action.token);
   }
@@ -33,3 +33,4 @@ export const tokenReducer = (state = initialState, action) => {
       return state;
   }
 };
+
