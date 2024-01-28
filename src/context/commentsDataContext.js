@@ -4,10 +4,10 @@ import {useCommentsData} from '../hooks/useCommentsData';
 
 export const commentsDataContext = React.createContext({});
 export const CommentsDataContextProvider = ({children}) => {
-  const [post, comments] = useCommentsData();
+  const [postData, commentsData] = useCommentsData();
 
   return (
-    <commentsDataContext.Provider value={{post, comments}}>
+    <commentsDataContext.Provider value={{postData, commentsData}}>
       {children}
     </commentsDataContext.Provider>
   );

@@ -2,14 +2,13 @@ import {useEffect, useState} from 'react';
 import {URL_API} from '../API/const';
 import {useSelector} from 'react-redux';
 
-export const useCommentsData = (id) => {
-  const token = useSelector(state => state.token);
+export const getComments = (id) => {
   const [commentsData, setCommentsData] = useState([]);
+  const token = useSelector(state => state.token);
 
   useEffect(() => {
     if (!token) return;
-
-    window.fetch(`${URL_API}/comments/${id}`, {
+    fetch(`${URL_API}/comments/${id}`, {
       headers: {
         Authorization: `bearer ${token}`,
       },
@@ -28,20 +27,20 @@ export const useCommentsData = (id) => {
             },
           },
           {
-            data: {
-              children,
-            },
+            data: {children},
           },
         ]) => {
           const comments = children.map(item => item.data);
-
           setCommentsData([post, comments]);
-        },
+          console.log(comments);
+          console.log(post);
+        }
       )
       .catch((err) => {
         console.error(err);
       });
   }, [token]);
-
   return commentsData;
 };
+
+
