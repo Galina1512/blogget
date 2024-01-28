@@ -29,7 +29,7 @@ export const postsSlice = createSlice({
       })
       .addCase(postRequestAsync.fulfilled, (state, action) => {
         state.loading = false;
-        state.posts = [...state.posts, ...action.payload.children];
+        state.posts = [...action.payload.children, ...state.posts];
         state.error = '';
         state.after = action.payload.after;
         state.isLast = !action.payload.after;
